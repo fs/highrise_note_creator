@@ -23,16 +23,16 @@ class NoteScript
   private
 
   def create_notes(body)
-      puts "No note found. Creating note: "
-      add_note(body)
-      puts "Finished!"
+    puts "No note found. Creating note: "
+    add_note(body)
+    puts "Finished!"
   end
 
   def add_note(body)
-      note = @found_person.add_note
-      note.body = body
-      note.save
-      puts "...#{note.body}..."
+    note = @found_person.add_note
+    note.body = body
+    note.save
+    puts "...#{note.body}..."
   end
 
   def find_email_in_user(person, emails)
@@ -66,7 +66,7 @@ class NoteScript
     @notes.each do |n|
       create_notes(n)
     end
-    puts "Everything up to date!" if @notes.empty?
+    puts "Everything is up to date!" if @notes.empty?
   end
 
   def find_notes
