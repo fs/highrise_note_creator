@@ -9,7 +9,6 @@ class NoteScript
   def initialize(email)
     @email = email
     @persons = Highrise::Person.all
-    @flag = true
   end
 
   def run
