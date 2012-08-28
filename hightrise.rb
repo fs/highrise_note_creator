@@ -9,14 +9,14 @@ class NoteScript
   def initialize(email)
     @email = email
     @persons = Highrise::Person.all
-    @NOTES = NOTES
+    @notes = NOTES
   end
 
   def run
     find_person
 
     @found_person.nil? ? create_person : find_notes
-    
+
     add_all_notes
   end
 
@@ -63,15 +63,15 @@ class NoteScript
   end
 
   def add_all_notes
-    @NOTES.each do |n|
+    @notes.each do |n|
       create_notes(n)
     end
-    puts "Everything up to date!" if @NOTES.empty?
+    puts "Everything up to date!" if @notes.empty?
   end
 
   def find_notes
     @found_person.notes.each do |p|
-      @NOTES.delete_if { |n| true if n == p.body } # REVIEW
+      @notes.delete_if { |n| true if n == p.body } # REVIEW
     end
   end
 end
