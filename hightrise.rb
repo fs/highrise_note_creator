@@ -12,6 +12,16 @@ class NoteScript
     @flag = true
   end
 
+  def run
+    find_person
+    create_person if @found_person.nil?
+
+    find_notes(@found_person)
+    create_notes(@found_person) if @found_notes.nil?
+  end
+
+  private
+
   def create_notes(user)
       puts "No notes found. Creating notes: "
       add_note(NOTE1, user)
@@ -67,14 +77,6 @@ class NoteScript
         @found_notes = "something"
       end
     end
-  end
-
-  def run
-    find_person
-    create_person if @found_person.nil?
-
-    find_notes(@found_person)
-    create_notes(@found_person) if @found_notes.nil?
   end
 end
 
