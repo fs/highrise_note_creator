@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9.1
+#!/usr/bin/env ruby
 #Username:asdasdaf password:123456
 
 require 'highrise'
