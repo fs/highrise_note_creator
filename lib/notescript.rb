@@ -34,19 +34,25 @@ class NoteScript
     puts "...#{note.body}..."
   end
 
-  def find_person_email(person, emails)
-    emails.each do |e|
-      if e.address == @email
-        puts "Person found with email #{@email}"
-        @found_person = person
-      end
-    end
-  end
+  # def find_person_email(person, emails)
+  #   emails.each do |e|
+  #     if e.address == @email
+  #       puts "Person found with email #{@email}"
+  #       @found_person = person
+  #     end
+  #   end
+  # end
 
   def find_person
     persons.each do |p|
       emails = p.contact_data.email_addresses
-        find_person_email(p, emails)
+      #find_person_email(p, emails)
+      emails.each do |e|
+        if e.address == @email
+          puts "Person found with email #{@email}"
+          @found_person = p
+        end
+      end
     end
   end
 
