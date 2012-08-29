@@ -46,10 +46,7 @@ class NoteScript
   def find_person
     persons.each do |p|
       emails = p.contact_data.email_addresses
-      unless emails.empty?
-          find_person_email(p, emails)
-          break unless @found_person.nil?
-      end
+        find_person_email(p, emails)
     end
   end
 

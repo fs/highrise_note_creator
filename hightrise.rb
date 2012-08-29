@@ -13,5 +13,5 @@ Highrise::Base.format = :xml
 
 notes = ['note one blah-blah-blah', 'ko-ko-ko kudah-tah-tah']
 
-n = NoteScript.new("user200@example.com", notes)
+n = NoteScript.new("user202@example.com", notes)
 n.run
