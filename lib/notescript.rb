@@ -13,12 +13,12 @@ class NoteScript
 
     @found_person.nil? ? create_person : find_notes
 
-    create_notes
+    add_notes
   end
 
   private
 
-  def create_notes
+  def add_notes
     @notes.each do |n|
       puts "No note found. Creating note: "
       add_note(n)
@@ -34,10 +34,10 @@ class NoteScript
     puts "...#{note.body}..."
   end
 
-  def find_email_in_user(person, emails)
+  def find_person_email(person, emails)
     emails.each do |e|
       if e.address == @email
-        puts "User found with email #{@email}"
+        puts "Person found with email #{@email}"
         @found_person = person
       end
     end
@@ -47,14 +47,14 @@ class NoteScript
     persons.each do |p|
       emails = p.contact_data.email_addresses
       unless emails.empty?
-          find_email_in_user(p, emails)
+          find_person_email(p, emails)
           break unless @found_person.nil?
       end
     end
   end
 
   def create_person
-    puts "No user found. Creating new user with email #{@email}"
+    puts "No person found. Creating new person with email #{@email}"
     new_person = Highrise::Person.create(:first_name => @email.split('@').first)
     new_person.contact_data.email_addresses = [:address => @email, :location => "Work"]
     new_person.save
