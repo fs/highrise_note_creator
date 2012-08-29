@@ -2,7 +2,11 @@ class NoteScript
   def initialize(email, notes)
     @email = email
     @notes = notes
-    @persons = Highrise::Person.all
+    #@persons = Highrise::Person.all
+  end
+
+  def persons
+    @persons ||= Highrise::Person.all
   end
 
   def run
@@ -41,7 +45,7 @@ class NoteScript
   end
 
   def find_person
-    @persons.each do |p|
+    persons.each do |p|
       emails = p.contact_data.email_addresses
       unless emails.empty?
           find_email_in_user(p, emails)
