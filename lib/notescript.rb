@@ -4,56 +4,32 @@ class NoteScript
     @notes = notes
   end
 
-  def persons
-    @persons ||= Highrise::Person.all
-  end
-
   def run
-    find_person
-
-    @found_person.nil? ? create_person : find_notes
-
-    add_notes
+    find_notes(find_person)
   end
 
   private
 
-  def add_notes
-    @notes.each do |n|
-      puts "No note found. Creating note: "
-      add_note(n)
-      puts "Finished!"
-    end
-    puts "Everything is up to date!" if @notes.empty?
+  def persons
+    @persons ||= Highrise::Person.all
   end
-
-  def add_note(body)
-    note = @found_person.add_note
-    note.body = body
-    note.save
-    puts "...#{note.body}..."
-  end
-
-  # def find_person_email(person, emails)
-  #   emails.each do |e|
-  #     if e.address == @email
-  #       puts "Person found with email #{@email}"
-  #       @found_person = person
-  #     end
-  #   end
-  # end
 
   def find_person
     persons.each do |p|
-      emails = p.contact_data.email_addresses
-      #find_person_email(p, emails)
-      emails.each do |e|
-        if e.address == @email
-          puts "Person found with email #{@email}"
-          @found_person = p
-        end
+      if !p.contact_data.email_addresses.find{|e| e.address == @email}.nil? # если нашли соответствующий email, то возвращаем его юзера
+        puts "Person found with email #{@email}"
+        return p
       end
     end
+    nil
+  end
+
+  def find_notes(person)
+    return create_person if person.nil? # Если пользователь не найден, то создаем его (return нужен, чтобы не парсить notes, т.к. у только что созданного юзера их нет)
+    person.notes.each do |p|
+      @notes.delete_if { |n| true if n == p.body } # ремувим те note, которые у юзера уже имеются
+    end
+    add_notes(person)
   end
 
   def create_person
@@ -61,12 +37,22 @@ class NoteScript
     new_person = Highrise::Person.create(:first_name => @email.split('@').first)
     new_person.contact_data.email_addresses = [:address => @email, :location => "Work"]
     new_person.save
-    @found_person = new_person
+    add_notes(new_person)
   end
 
-  def find_notes
-    @found_person.notes.each do |p|
-      @notes.delete_if { |n| true if n == p.body } # REVIEW
+  def add_notes(person)
+    @notes.each do |n|
+      puts "No note found. Creating note: "
+      add_note(n, person)
+      puts "Finished!"
     end
+    puts "Everything is up to date!" if @notes.empty? # ничего не добавлено - у юзера все notes уже есть
+  end
+
+  def add_note(body, person)
+    note = person.add_note
+    note.body = body
+    note.save
+    puts "...#{note.body}..."
   end
 end
