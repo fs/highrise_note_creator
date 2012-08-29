@@ -17,15 +17,18 @@ class NoteScript
 
     @found_person.nil? ? create_person : find_notes
 
-    add_all_notes
+    create_notes
   end
 
   private
 
-  def create_notes(body)
-    puts "No note found. Creating note: "
-    add_note(body)
-    puts "Finished!"
+  def create_notes
+    @notes.each do |n|
+      puts "No note found. Creating note: "
+      add_note(n)
+      puts "Finished!"
+    end
+    puts "Everything is up to date!" if @notes.empty?
   end
 
   def add_note(body)
@@ -60,13 +63,6 @@ class NoteScript
     new_person.contact_data.email_addresses = [:address => @email, :location => "Work"]
     new_person.save
     @found_person = new_person
-  end
-
-  def add_all_notes
-    @notes.each do |n|
-      create_notes(n)
-    end
-    puts "Everything is up to date!" if @notes.empty?
   end
 
   def find_notes
