@@ -45,19 +45,21 @@ class NoteScript
   def person_notes
     @person_notes ||= @person.notes.map{ |note| note.body }
   end  
-
+  
   def create_notes
-    @notes.each do |note|
-      create_note(note) unless note_exists?(note)
+    @notes.each do |note, group_name| 
+      create_note(note, group_name) unless note_exists?(note)
     end
   end
-
-  def create_note(body)
-    note = @person.add_note
-    note.body = body
-    note.save
+  
+  def create_note(body, group_name)
+    note = @person.add_note(:body => body, :visible_to => group_name ? "NamedGroup" : "Everyone", :group_id => get_group_id(group_name))
     
     puts "...#{note.body}..."
+  end
+  
+  def get_group_id(group_name)
+     Highrise::Group.all.find { |group| return group.id if group.name == group_name }
   end
   
   def note_exists?(note)

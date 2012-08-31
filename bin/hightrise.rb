@@ -9,7 +9,7 @@ require 'notescript'
 
 HIGHRISE_SITE = 'https://fsateam.highrisehq.com'
 HIGHRISE_USER = '016387efef4dd406559aaec5696feae5'
-NOTES = ['note one blah-blah-blah', 'ko-ko-ko kudah-tah-tah']
+NOTES = {'important!' => 'Senate', 'ko-ko-ko kudah-tah-tah' => nil}
 
 email = ARGV.shift || raise("User should be specified")
 
